@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, MapPin, Calendar, Users, Shield, Star, CheckCircle } from 'lucide-react';
+import { Heart, MapPin, Calendar, Users, Shield, Star, CheckCircle, MessageCircle, Sparkles } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -23,6 +23,9 @@ export default function Home() {
               </Button>
               <Button variant="ghost" asChild>
                 <Link href="#features">Features</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link href="/community">Community</Link>
               </Button>
               <Button asChild>
                 <Link href="/onboarding">Get Started</Link>
@@ -308,7 +311,7 @@ export default function Home() {
                   <Button size="lg" asChild className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg flex-shrink-0">
                     <Link href="/trials">Browse Trials →</Link>
                   </Button>
-                </div>
+            </div>
               </CardContent>
             </Card>
           </div>
@@ -454,6 +457,101 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Community Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-purple-600 text-white">
+              <Users className="h-3 w-3 mr-1" />
+              Community
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+              You're Not Alone in This Journey
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Connect with others who understand what you're going through. Share experiences, get support, 
+              and learn from those who've walked this path before.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <Card className="border-2 border-purple-200 dark:border-purple-800 hover:shadow-xl transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-500 rounded-lg flex items-center justify-center mb-3">
+                  <MessageCircle className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-lg">Share Your Story</CardTitle>
+                <CardDescription>
+                  Post about your journey, milestones, and experiences. Inspire others with your progress.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-2 border-pink-200 dark:border-pink-800 hover:shadow-xl transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-600 to-pink-500 rounded-lg flex items-center justify-center mb-3">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-lg">Get Support</CardTitle>
+                <CardDescription>
+                  Connect with 234+ members who understand your challenges. Ask questions, share concerns, get advice.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-2 border-indigo-200 dark:border-indigo-800 hover:shadow-xl transition-all">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-lg flex items-center justify-center mb-3">
+                  <MapPin className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-lg">Copy Success Paths</CardTitle>
+                <CardDescription>
+                  See how others navigated their treatment. Copy proven navigation paths and adapt them to your journey.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+
+          <Card className="border-2 border-purple-300 dark:border-purple-700 bg-gradient-to-br from-white to-purple-50 dark:from-slate-900 dark:to-purple-950/30">
+            <CardContent className="pt-8 pb-8">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">Real Stories from Real People</h3>
+                  <ul className="space-y-3 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span><strong>Sarah's Journey:</strong> "The community helped me understand what to expect at every step"</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span><strong>Ahmed's Tip:</strong> "I copied Fatima's navigation path and saved weeks of confusion"</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span><strong>Mariam's Milestone:</strong> "Celebrating 1 year cancer-free with my community support"</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="text-center md:text-right">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg inline-block">
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                      <Users className="h-8 w-8 text-purple-600" />
+                      <div className="text-left">
+                        <p className="text-3xl font-bold text-foreground">234+</p>
+                        <p className="text-sm text-muted-foreground">Active Members</p>
+                      </div>
+                    </div>
+                    <Button size="lg" asChild className="w-full bg-purple-600 hover:bg-purple-700">
+                      <Link href="/community">Join Community →</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       {/* About Section */}
       <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -522,6 +620,76 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Quick Onboarding Note */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-accent/10 to-primary/10">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-8">
+            <Badge className="mb-4 bg-accent text-accent-foreground">
+              <Calendar className="h-3 w-3 mr-1" />
+              Quick & Easy Setup
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Get Started in 3 Simple Steps
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Your personalized cancer care plan is just minutes away
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="border-2 hover:shadow-xl transition-all text-center">
+              <CardContent className="pt-8 pb-8">
+                <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl font-bold text-accent">1</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">Answer a Few Questions</h3>
+                <p className="text-muted-foreground">
+                  Tell us about your diagnosis, location, and preferences. Takes about 2 minutes.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 hover:shadow-xl transition-all text-center">
+              <CardContent className="pt-8 pb-8">
+                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl font-bold text-primary">2</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">Get Your AI Care Plan</h3>
+                <p className="text-muted-foreground">
+                  Our AI instantly creates a personalized 3-5 step roadmap with local providers.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 hover:shadow-xl transition-all text-center">
+              <CardContent className="pt-8 pb-8">
+                <div className="w-16 h-16 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl font-bold text-success">3</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">Book & Connect</h3>
+                <p className="text-muted-foreground">
+                  Start booking appointments, join the community, and take control of your journey.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-10 text-center">
+            <Card className="bg-white/50 dark:bg-slate-900/50 backdrop-blur border-2 border-accent/30 inline-block">
+              <CardContent className="pt-6 pb-6 px-8">
+                <div className="flex items-center gap-4">
+                  <Sparkles className="h-8 w-8 text-accent" />
+                  <div className="text-left">
+                    <p className="font-semibold text-foreground mb-1">No medical expertise required</p>
+                    <p className="text-sm text-muted-foreground">We guide you through everything in simple, clear language</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t bg-muted/30 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -539,6 +707,7 @@ export default function Home() {
               <h4 className="font-semibold mb-3">Product</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link href="/onboarding" className="hover:text-foreground">Get Started</Link></li>
+                <li><Link href="/community" className="hover:text-foreground">Community</Link></li>
                 <li><Link href="/resources" className="hover:text-foreground">Resources</Link></li>
                 <li><Link href="/trials" className="hover:text-foreground">Clinical Trials</Link></li>
               </ul>
