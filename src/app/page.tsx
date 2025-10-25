@@ -213,6 +213,108 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Clinical Trials Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-blue-600 text-white">Clinical Trials</Badge>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+              Access Cutting-Edge Research & New Medicines
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Connect with groundbreaking clinical trials and be among the first to access innovative treatments
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="border-2 border-blue-200 dark:border-blue-800 shadow-xl">
+              <CardHeader>
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-500 rounded-xl flex items-center justify-center mb-4">
+                  <Heart className="h-7 w-7 text-white" />
+                </div>
+                <CardTitle className="text-2xl">Connect to Research</CardTitle>
+                <CardDescription className="text-base">
+                  Discover clinical trials that match your diagnosis and treatment history
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Personalized trial matching based on your profile</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Updated database of active trials in the UAE</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Direct contact with research coordinators</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span>Understand eligibility criteria in simple terms</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-indigo-200 dark:border-indigo-800 shadow-xl">
+              <CardHeader>
+                <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl flex items-center justify-center mb-4">
+                  <Star className="h-7 w-7 text-white" />
+                </div>
+                <CardTitle className="text-2xl">New Medicine Research</CardTitle>
+                <CardDescription className="text-base">
+                  Access breakthrough treatments before they're widely available
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-indigo-600 mt-0.5 flex-shrink-0" />
+                    <span>Early access to promising new medications</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-indigo-600 mt-0.5 flex-shrink-0" />
+                    <span>Immunotherapy and targeted therapy trials</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-indigo-600 mt-0.5 flex-shrink-0" />
+                    <span>No-cost treatment through research programs</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-indigo-600 mt-0.5 flex-shrink-0" />
+                    <span>Expert monitoring and additional care</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Card className="border-2 border-blue-300 dark:border-blue-700 bg-white/50 dark:bg-slate-900/50 backdrop-blur">
+              <CardContent className="pt-6">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="text-left">
+                    <h3 className="text-xl font-semibold mb-2 text-foreground">
+                      Why Consider Clinical Trials?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Clinical trials offer hope, advance medical science, and may provide access to treatments 
+                      not yet available through standard care. Our platform makes it easy to explore your options.
+                    </p>
+                  </div>
+                  <Button size="lg" asChild className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg flex-shrink-0">
+                    <Link href="/trials">Browse Trials →</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
