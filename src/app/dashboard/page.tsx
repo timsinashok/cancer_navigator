@@ -2,89 +2,78 @@
 
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Heart, Calendar, MapPin, Users, Plus, CheckCircle, Clock, Phone, Globe, Star } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
+import { AppointmentBookingDialog } from '@/components/appointment-booking-dialog';
+import { 
+  Heart, Calendar, MapPin, Users, CheckCircle, Clock, 
+  Phone, Globe, Star, Plus, Upload, Bell, FileText,
+  Sparkles, TrendingUp, Award, AlertCircle
+} from 'lucide-react';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
-const carePlan = [
+interface CarePlanStep {
+  id: number;
+  step_order: number;
+  step_title: string;
+  step_description: string;
+  is_done: boolean;
+  estimated_duration?: string;
+  priority?: 'high' | 'medium' | 'low';
+}
+
+const initialCarePlan: CarePlanStep[] = [
   {
     id: 1,
     step_order: 1,
     step_title: 'Confirm pathology and obtain your report',
     step_description: 'Request your histopathology report from your doctor. This confirms the cancer type and helps guide treatment decisions.',
-    is_done: true
+    is_done: false,
+    estimated_duration: '1-2 days',
+    priority: 'high'
   },
   {
     id: 2,
     step_order: 2,
     step_title: 'Book oncologist consultation',
     step_description: 'Bring all reports, medication list, and questions. Consider bringing a family member or friend for support.',
-    is_done: true
+    is_done: false,
+    estimated_duration: '1 week',
+    priority: 'high'
   },
   {
     id: 3,
     step_order: 3,
     step_title: 'Schedule baseline imaging',
     step_description: 'CT/MRI/PET scans as ordered by your oncologist to determine the extent of disease.',
-    is_done: false
+    is_done: false,
+    estimated_duration: '2-3 days',
+    priority: 'high'
   },
   {
     id: 4,
     step_order: 4,
     step_title: 'Discuss treatment options',
     step_description: 'Review surgery, chemotherapy, radiation, hormonal therapy, and targeted therapy options with your care team.',
-    is_done: false
+    is_done: false,
+    estimated_duration: '1-2 weeks',
+    priority: 'medium'
   },
   {
     id: 5,
     step_order: 5,
     step_title: 'Join local support group',
     step_description: 'Connect with others who understand your journey. Peer support improves treatment adherence and emotional well-being.',
-    is_done: false
+    is_done: false,
+    estimated_duration: 'Ongoing',
+    priority: 'medium'
   }
 ];
 
-const providers = [
-  {
-    id: 1,
-    name: 'Cleveland Clinic Abu Dhabi',
-    category: 'Hospital',
-    address: 'Al Maryah Island, Abu Dhabi',
-    phone: '+971 2 659 0200',
-    website: 'https://www.clevelandclinicabudhabi.ae',
-    blurb: 'Comprehensive oncology center with multidisciplinary team.',
-    rating: 4.8,
-    distance: '2.5 km'
-  },
-  {
-    id: 2,
-    name: 'Sheikh Shakhbout Medical City',
-    category: 'Hospital',
-    address: 'Al Mafraq, Abu Dhabi',
-    phone: '+971 2 314 4444',
-    website: 'https://ssmc.ae',
-    blurb: 'Tertiary care with advanced oncology services.',
-    rating: 4.6,
-    distance: '15.2 km'
-  },
-  {
-    id: 3,
-    name: 'National Screening Program',
-    category: 'NGO',
-    address: 'Citywide, Abu Dhabi',
-    phone: '+971 2 123 4567',
-    website: 'https://www.screening.ae',
-    blurb: 'Breast cancer awareness & screening support.',
-    rating: 4.5,
-    distance: 'Varies'
-  }
-];
-
-const appointments = [
+const upcomingAppointments = [
   {
     id: 1,
     title: 'Oncologist Consultation',
@@ -103,37 +92,34 @@ const appointments = [
   }
 ];
 
-const communityPosts = [
+const providers = [
   {
     id: 1,
-    user_name: 'Sarah',
-    content: 'Just finished my first chemo session. The team at Cleveland Clinic was amazing. Remember to bring someone with you for support!',
-    created_at: new Date('2024-12-15T10:30:00'),
-    city: 'Abu Dhabi',
-    cancer_type: 'Breast Cancer'
+    name: 'Cleveland Clinic Abu Dhabi',
+    category: 'Hospital',
+    rating: 4.8,
+    distance: '2.5 km',
+    phone: '+971 2 659 0200'
   },
   {
     id: 2,
-    user_name: 'Ahmed',
-    content: 'Found a great parking spot near SSMC - use the underground parking B2, it\'s usually less crowded.',
-    created_at: new Date('2024-12-14T15:45:00'),
-    city: 'Abu Dhabi',
-    cancer_type: 'Breast Cancer'
-  },
-  {
-    id: 3,
-    user_name: 'Fatima',
-    content: 'The support group meeting last week was so helpful. Meeting others who understand makes such a difference.',
-    created_at: new Date('2024-12-13T09:20:00'),
-    city: 'Abu Dhabi',
-    cancer_type: 'Breast Cancer'
+    name: 'Sheikh Shakhbout Medical City',
+    category: 'Hospital',
+    rating: 4.6,
+    distance: '15.2 km',
+    phone: '+971 2 314 4444'
   }
 ];
 
 export default function Dashboard() {
-  const [planSteps, setPlanSteps] = useState(carePlan);
+  const [planSteps, setPlanSteps] = useState<CarePlanStep[]>(initialCarePlan);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [selectedStepForBooking, setSelectedStepForBooking] = useState<string>('');
+  const { toast } = useToast();
+  
   const completedSteps = planSteps.filter(step => step.is_done).length;
   const progressPercentage = (completedSteps / planSteps.length) * 100;
+  const nextStep = planSteps.find(step => !step.is_done);
 
   const toggleStep = (stepId: number) => {
     setPlanSteps(prev => 
@@ -141,6 +127,25 @@ export default function Dashboard() {
         step.id === stepId ? { ...step, is_done: !step.is_done } : step
       )
     );
+  };
+
+  const handleBookAppointment = (stepTitle?: string) => {
+    setSelectedStepForBooking(stepTitle || '');
+    setIsBookingOpen(true);
+  };
+
+  const handleBookingSuccess = () => {
+    toast({
+      title: "Appointment Booked!",
+      description: "You'll receive a confirmation email shortly.",
+    });
+  };
+
+  const handleSetReminder = (stepTitle: string) => {
+    toast({
+      title: "Reminder Set",
+      description: `We'll remind you about: ${stepTitle}`,
+    });
   };
 
   const formatDate = (date: Date) => {
@@ -153,37 +158,40 @@ export default function Dashboard() {
     }).format(date);
   };
 
-  const formatRelativeTime = (date: Date) => {
-    const now = new Date();
-    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
-    if (diffInHours < 1) return 'Just now';
-    if (diffInHours < 24) return `${diffInHours}h ago`;
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays}d ago`;
+  const getDaysUntil = (date: Date) => {
+    const days = Math.ceil((date.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Tomorrow';
+    return `in ${days} days`;
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
       {/* Header */}
-      <div className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+      <div className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <Heart className="h-6 w-6 text-primary" />
+              <Link href="/" className="flex items-center space-x-2 group">
+                <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                  <Heart className="h-6 w-6 text-primary" />
+                </div>
                 <span className="text-lg font-bold">Cancer Navigator</span>
               </Link>
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="bg-secondary">
                 Abu Dhabi • Breast Cancer
               </Badge>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Button variant="ghost" asChild>
                 <Link href="/resources">Resources</Link>
               </Button>
               <Button variant="ghost" asChild>
                 <Link href="/trials">Clinical Trials</Link>
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2">
+                <Bell className="h-4 w-4" />
+                <span className="hidden sm:inline">Notifications</span>
               </Button>
             </div>
           </div>
@@ -194,281 +202,361 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back! Here's your care journey
+          <h1 className="text-4xl font-bold text-foreground mb-2 flex items-center gap-2">
+            Welcome back, Sarah 
+            <Sparkles className="h-8 w-8 text-accent" />
           </h1>
           <p className="text-lg text-muted-foreground">
-            You're making progress. Keep going, one step at a time.
+            You're making great progress on your care journey. Here's what's next.
           </p>
         </div>
 
-        {/* Progress Overview */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Heart className="h-5 w-5 text-primary" />
-              Your Care Plan Progress
-            </CardTitle>
-            <CardDescription>
-              {completedSteps} of {planSteps.length} steps completed
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Progress value={progressPercentage} className="h-3 mb-4" />
-            <p className="text-sm text-muted-foreground">
-              {progressPercentage === 100 
-                ? "🎉 Excellent! You've completed all your initial steps." 
-                : `You're ${Math.round(progressPercentage)}% through your initial care plan. Keep going!`
-              }
-            </p>
-          </CardContent>
-        </Card>
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <Card className="border-l-4 border-l-primary">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Progress</p>
+                  <p className="text-3xl font-bold text-primary">{Math.round(progressPercentage)}%</p>
+                </div>
+                <TrendingUp className="h-8 w-8 text-primary" />
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* Main Tabs */}
-        <Tabs defaultValue="plan" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="plan" className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4" />
-              Plan
-            </TabsTrigger>
-            <TabsTrigger value="providers" className="flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              Providers
-            </TabsTrigger>
-            <TabsTrigger value="appointments" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              Appointments
-            </TabsTrigger>
-            <TabsTrigger value="community" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Community
-            </TabsTrigger>
-          </TabsList>
+          <Card className="border-l-4 border-l-accent">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Upcoming</p>
+                  <p className="text-3xl font-bold text-accent">{upcomingAppointments.length}</p>
+                </div>
+                <Calendar className="h-8 w-8 text-accent" />
+              </div>
+            </CardContent>
+          </Card>
 
-          {/* Plan Tab */}
-          <TabsContent value="plan" className="space-y-4">
+          <Card className="border-l-4 border-l-success">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Completed</p>
+                  <p className="text-3xl font-bold text-success">{completedSteps}</p>
+                </div>
+                <Award className="h-8 w-8 text-success" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-l-4 border-l-info">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Community</p>
+                  <p className="text-3xl font-bold text-info">234</p>
+                </div>
+                <Users className="h-8 w-8 text-info" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Next Step Highlight */}
+        {nextStep && (
+          <Card className="mb-8 bg-gradient-to-r from-primary/5 to-accent/5 border-primary/20">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertCircle className="h-5 w-5 text-primary" />
+                    <CardTitle className="text-xl">Your Next Step</CardTitle>
+                    <Badge className="bg-accent">Priority: {nextStep.priority?.toUpperCase()}</Badge>
+                  </div>
+                  <CardDescription className="text-base">
+                    <strong className="text-foreground">{nextStep.step_title}</strong>
+                  </CardDescription>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {nextStep.step_description}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    Estimated time: {nextStep.estimated_duration}
+                  </p>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-3">
+                <Button 
+                  className="bg-accent hover:bg-accent/90"
+                  onClick={() => handleBookAppointment(nextStep.step_title)}
+                >
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Book Appointment
+                </Button>
+                <Button variant="outline" onClick={() => handleSetReminder(nextStep.step_title)}>
+                  <Bell className="h-4 w-4 mr-2" />
+                  Set Reminder
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link href="/resources">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Learn More
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Column - Care Plan */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Progress Overview */}
             <Card>
               <CardHeader>
-                <CardTitle>Your 5-Step Navigation Plan</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Heart className="h-5 w-5 text-primary" />
+                  Your Care Plan Progress
+                </CardTitle>
                 <CardDescription>
-                  Check off steps as you complete them. You can always come back to review.
+                  {completedSteps} of {planSteps.length} steps completed
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {planSteps.map((step) => (
-                    <div 
-                      key={step.id} 
-                      className={`flex gap-4 p-4 rounded-lg border ${
-                        step.is_done ? 'bg-success/5 border-success/20' : 'bg-card'
-                      }`}
-                    >
-                      <div className="flex-shrink-0 pt-1">
-                        <Checkbox 
-                          checked={step.is_done}
-                          onCheckedChange={() => toggleStep(step.id)}
+                <Progress value={progressPercentage} className="h-3 mb-4" />
+                <p className="text-sm text-muted-foreground">
+                  {progressPercentage === 100 
+                    ? "🎉 Excellent! You've completed all your initial steps." 
+                    : `Keep going! You're ${Math.round(progressPercentage)}% through your care plan.`
+                  }
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Visual Timeline */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Your Care Journey Timeline</CardTitle>
+                <CardDescription>Track your progress step by step</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  {planSteps.map((step, index) => (
+                    <div key={step.id} className="relative">
+                      {/* Timeline Line */}
+                      {index < planSteps.length - 1 && (
+                        <div 
+                          className={`absolute left-4 top-12 bottom-0 w-0.5 ${
+                            step.is_done ? 'bg-success' : 'bg-border'
+                          }`} 
                         />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className={`font-semibold mb-2 ${
-                          step.is_done ? 'text-success line-through' : 'text-foreground'
-                        }`}>
-                          Step {step.step_order}: {step.step_title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {step.step_description}
-                        </p>
-                        {step.is_done && (
-                          <Badge variant="success" className="mt-2">
-                            <CheckCircle className="h-3 w-3 mr-1" />
-                            Completed
-                          </Badge>
-                        )}
+                      )}
+                      
+                      <div className="flex gap-4">
+                        {/* Timeline Indicator */}
+                        <div className="relative">
+                          <div 
+                            className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
+                              step.is_done 
+                                ? 'bg-success border-success text-white' 
+                                : step.id === nextStep?.id
+                                ? 'bg-primary border-primary text-white animate-pulse'
+                                : 'bg-background border-border text-muted-foreground'
+                            }`}
+                          >
+                            {step.is_done ? (
+                              <CheckCircle className="h-5 w-5" />
+                            ) : (
+                              <span className="text-sm font-bold">{step.step_order}</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div 
+                          className={`flex-1 pb-6 ${
+                            step.id === nextStep?.id ? 'ring-2 ring-primary rounded-lg p-4 bg-primary/5' : 'p-4'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className={`font-semibold ${
+                              step.is_done ? 'text-success line-through' : 'text-foreground'
+                            }`}>
+                              {step.step_title}
+                            </h3>
+                            {step.priority && !step.is_done && (
+                              <Badge 
+                                variant="outline" 
+                                className={
+                                  step.priority === 'high' 
+                                    ? 'border-accent text-accent'
+                                    : 'border-muted-foreground text-muted-foreground'
+                                }
+                              >
+                                {step.priority}
+                              </Badge>
+                            )}
+                          </div>
+                          
+                          <p className="text-sm text-muted-foreground mb-3">
+                            {step.step_description}
+                          </p>
+
+                          {step.estimated_duration && !step.is_done && (
+                            <p className="text-xs text-muted-foreground flex items-center gap-1 mb-3">
+                              <Clock className="h-3 w-3" />
+                              {step.estimated_duration}
+                            </p>
+                          )}
+
+                          {step.is_done && (
+                            <Badge variant="outline" className="border-success text-success mb-3">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Completed
+                            </Badge>
+                          )}
+
+                          {!step.is_done && (
+                            <div className="flex flex-wrap gap-2">
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => handleBookAppointment(step.step_title)}
+                                className="text-primary border-primary hover:bg-primary hover:text-white"
+                              >
+                                <Calendar className="h-3 w-3 mr-1" />
+                                Book
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => handleSetReminder(step.step_title)}
+                              >
+                                <Bell className="h-3 w-3 mr-1" />
+                                Remind
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => toggleStep(step.id)}
+                              >
+                                Mark Done
+                              </Button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
+          </div>
 
-          {/* Providers Tab */}
-          <TabsContent value="providers" className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Local Healthcare Providers</h2>
-              <Button variant="outline" size="sm">
-                <MapPin className="h-4 w-4 mr-2" />
-                View Map
-              </Button>
-            </div>
-            
-            <div className="grid gap-4">
-              {providers.map((provider) => (
-                <Card key={provider.id} className="hover:shadow-md transition-shadow">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-lg">{provider.name}</CardTitle>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="secondary">{provider.category}</Badge>
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Star className="h-3 w-3 mr-1 fill-current text-yellow-500" />
-                            {provider.rating}
-                          </div>
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <MapPin className="h-3 w-3 mr-1" />
-                            {provider.distance}
-                          </div>
-                        </div>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        Save
-                      </Button>
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Quick Actions */}
+            <Card className="bg-gradient-to-br from-primary/5 to-accent/5">
+              <CardHeader>
+                <CardTitle className="text-lg">Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button 
+                  className="w-full justify-start bg-accent hover:bg-accent/90"
+                  onClick={() => handleBookAppointment()}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Book New Appointment
+                </Button>
+                <Button variant="outline" className="w-full justify-start">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Upload Document
+                </Button>
+                <Button variant="outline" className="w-full justify-start" asChild>
+                  <Link href="/resources">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Browse Resources
+                  </Link>
+                </Button>
+                <Button variant="outline" className="w-full justify-start" asChild>
+                  <Link href="/trials">
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Find Clinical Trials
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Upcoming Appointments */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center justify-between">
+                  <span>Upcoming Appointments</span>
+                  <Badge variant="secondary">{upcomingAppointments.length}</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {upcomingAppointments.map((apt) => (
+                  <div key={apt.id} className="p-3 bg-muted/50 rounded-lg space-y-2">
+                    <div className="flex items-start justify-between">
+                      <h4 className="font-semibold text-sm">{apt.title}</h4>
+                      <Badge variant="outline" className="text-xs">
+                        {getDaysUntil(apt.starts_at)}
+                      </Badge>
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      {provider.blurb}
+                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {formatDate(apt.starts_at)}
                     </p>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-muted-foreground" />
-                        <span>{provider.address}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-muted-foreground" />
-                        <span>{provider.phone}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Globe className="h-4 w-4 text-muted-foreground" />
-                        <a href={provider.website} target="_blank" rel="noopener noreferrer" 
-                           className="text-primary hover:underline">
-                          Visit Website
-                        </a>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          {/* Appointments Tab */}
-          <TabsContent value="appointments" className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Your Appointments</h2>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Appointment
-              </Button>
-            </div>
-
-            {appointments.length === 0 ? (
-              <Card>
-                <CardContent className="text-center py-12">
-                  <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No appointments yet</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Keep important dates in one place. Add your first appointment.
-                  </p>
-                  <Button>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Your First Appointment
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-4">
-                {appointments.map((appointment) => (
-                  <Card key={appointment.id}>
-                    <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <CardTitle className="text-lg">{appointment.title}</CardTitle>
-                          <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
-                            <Clock className="h-4 w-4" />
-                            {formatDate(appointment.starts_at)}
-                          </div>
-                        </div>
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-muted-foreground" />
-                          <span>{appointment.location}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Users className="h-4 w-4 text-muted-foreground" />
-                          <span>{appointment.provider_name}</span>
-                        </div>
-                        {appointment.notes && (
-                          <div className="mt-2 p-2 bg-muted/50 rounded text-muted-foreground">
-                            {appointment.notes}
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
+                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {apt.location}
+                    </p>
+                  </div>
                 ))}
-              </div>
-            )}
-          </TabsContent>
+              </CardContent>
+            </Card>
 
-          {/* Community Tab */}
-          <TabsContent value="community" className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Abu Dhabi • Breast Cancer Community</h2>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                New Post
-              </Button>
-            </div>
-
-            <div className="bg-muted/30 border border-muted rounded-lg p-4 mb-4">
-              <p className="text-sm text-muted-foreground">
-                <strong>Community Guidelines:</strong> No medical advice. Be kind and supportive. 
-                Flag inappropriate content for moderation.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {communityPosts.map((post) => (
-                <Card key={post.id}>
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-semibold text-primary">
-                          {post.user_name[0]}
-                        </span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="font-semibold">{post.user_name}</span>
-                          <span className="text-sm text-muted-foreground">
-                            {formatRelativeTime(post.created_at)}
-                          </span>
-                        </div>
-                        <p className="text-sm leading-relaxed mb-3">
-                          {post.content}
-                        </p>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <Button variant="ghost" size="sm">Like</Button>
-                          <Button variant="ghost" size="sm">Reply</Button>
-                          <Button variant="ghost" size="sm">Flag</Button>
-                        </div>
+            {/* Nearby Providers */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Nearby Providers</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {providers.map((provider) => (
+                  <div key={provider.id} className="p-3 border rounded-lg space-y-2">
+                    <div className="flex items-start justify-between">
+                      <h4 className="font-semibold text-sm">{provider.name}</h4>
+                      <div className="flex items-center text-xs">
+                        <Star className="h-3 w-3 fill-yellow-500 text-yellow-500 mr-1" />
+                        {provider.rating}
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {provider.distance} away
+                    </p>
+                    <Button size="sm" variant="outline" className="w-full text-xs">
+                      <Phone className="h-3 w-3 mr-1" />
+                      Call Now
+                    </Button>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
+
+      {/* Appointment Booking Dialog */}
+      <AppointmentBookingDialog
+        open={isBookingOpen}
+        onOpenChange={setIsBookingOpen}
+        stepTitle={selectedStepForBooking}
+        onSuccess={handleBookingSuccess}
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, MapPin, Calendar, Users, Shield, Star } from 'lucide-react';
+import { Heart, MapPin, Calendar, Users, Shield, Star, CheckCircle } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -33,118 +33,211 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <Badge variant="secondary" className="mb-4">
-            Abu Dhabi • Breast Cancer Support
-          </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-            Navigate your cancer care with confidence
-          </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-            A local step-by-step plan, trusted providers, reminders, and community—starting in Abu Dhabi. 
-            Turn confusion into clarity during your cancer journey.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button size="lg" asChild className="text-lg px-8 py-6">
-              <Link href="/onboarding">Get Started</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="text-lg px-8 py-6">
-              <Link href="#features">See How It Works</Link>
-            </Button>
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-accent text-accent-foreground">
+              🇦🇪 Abu Dhabi • Breast Cancer Support
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+              Navigate Cancer Care with
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                Confidence & Clarity
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+              Your personal AI-powered care companion. Get step-by-step guidance, book appointments instantly, 
+              and connect with local experts—all in one place.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button size="lg" asChild className="text-lg px-10 py-7 bg-accent hover:bg-accent/90 shadow-lg hover:shadow-xl transition-all">
+                <Link href="/onboarding">Get Started →</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="text-lg px-10 py-7 border-2">
+                <Link href="#features">See How It Works</Link>
+              </Button>
+            </div>
+            
+            {/* Trust Markers */}
+            <div className="flex flex-wrap justify-center items-center gap-8 text-sm">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="p-2 bg-primary/10 rounded-full">
+                  <Shield className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium">Safe & Secure</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="p-2 bg-primary/10 rounded-full">
+                  <Users className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium">234+ Active Members</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="p-2 bg-primary/10 rounded-full">
+                  <MapPin className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium">Local Focus</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="p-2 bg-primary/10 rounded-full">
+                  <Star className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium">Expert-Reviewed</span>
+              </div>
+            </div>
           </div>
-          
-          {/* Trust Markers */}
-          <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" />
-              <span>Safe & Secure</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-primary" />
-              <span>Community-Supported</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" />
-              <span>Local Focus</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Star className="h-4 w-4 text-primary" />
-              <span>Expert-Reviewed</span>
+
+          {/* Hero Image/Preview */}
+          <div className="max-w-5xl mx-auto mt-16">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-primary/20">
+              <div className="aspect-video bg-gradient-to-br from-primary/20 via-accent/10 to-primary/10 flex items-center justify-center">
+                <div className="text-center p-8">
+                  <Heart className="h-24 w-24 text-primary mx-auto mb-4" />
+                  <p className="text-lg font-semibold text-muted-foreground">
+                    Your personalized dashboard awaits
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <Badge className="mb-4 bg-primary text-primary-foreground">Why Cancer Navigator?</Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
               Everything you need in one place
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From your first appointment to ongoing support, we're here to guide you every step of the way.
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              From your first appointment to ongoing support, we're here to guide you every step of the way. 
+              Join hundreds of patients who've found clarity with our platform.
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-2 border-primary/10 shadow-lg hover:shadow-2xl hover:border-primary/30 transition-all group">
               <CardHeader>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <Calendar className="h-6 w-6 text-primary" />
+                <div className="w-14 h-14 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Calendar className="h-7 w-7 text-white" />
                 </div>
-                <CardTitle>Personalized Care Plan</CardTitle>
-                <CardDescription>
-                  Get a clear 3-5 step roadmap tailored to your specific cancer type and stage.
+                <CardTitle className="text-xl">AI-Powered Care Plan</CardTitle>
+                <CardDescription className="text-base">
+                  Get a personalized 3-5 step roadmap with actionable next steps and instant appointment booking.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Step-by-step guidance</li>
-                  <li>• Progress tracking</li>
-                  <li>• Actionable checklists</li>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span>Step-by-step visual timeline</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span>Progress tracking & milestones</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span>Smart reminders & checklists</span>
+                  </li>
                 </ul>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-2 border-accent/10 shadow-lg hover:shadow-2xl hover:border-accent/30 transition-all group">
               <CardHeader>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <MapPin className="h-6 w-6 text-primary" />
+                <div className="w-14 h-14 bg-gradient-to-br from-accent to-accent/70 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <MapPin className="h-7 w-7 text-white" />
                 </div>
-                <CardTitle>Local Providers</CardTitle>
-                <CardDescription>
-                  Find verified oncologists, hospitals, labs, and support services in Abu Dhabi.
+                <CardTitle className="text-xl">Verified Local Providers</CardTitle>
+                <CardDescription className="text-base">
+                  Book directly with top-rated oncologists, hospitals, and labs in Abu Dhabi.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Interactive map</li>
-                  <li>• Verified listings</li>
-                  <li>• Save favorites</li>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                    <span>Real-time availability</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                    <span>Ratings & reviews from patients</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                    <span>Insurance & distance info</span>
+                  </li>
                 </ul>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-2 border-success/10 shadow-lg hover:shadow-2xl hover:border-success/30 transition-all group">
               <CardHeader>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-primary" />
+                <div className="w-14 h-14 bg-gradient-to-br from-success to-success/70 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Users className="h-7 w-7 text-white" />
                 </div>
-                <CardTitle>Community Support</CardTitle>
-                <CardDescription>
-                  Connect with others on similar journeys in a safe, supportive environment.
+                <CardTitle className="text-xl">24/7 AI Assistant & Community</CardTitle>
+                <CardDescription className="text-base">
+                  Get instant answers and connect with others who understand your journey.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Local discussions</li>
-                  <li>• Shared experiences</li>
-                  <li>• Peer support</li>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                    <span>AI chatbot for instant help</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                    <span>Local patient community</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                    <span>Peer support & shared experiences</span>
+                  </li>
                 </ul>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Social Proof */}
+          <div className="mt-16 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-8 md:p-12">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold mb-2">Trusted by Cancer Patients Across Abu Dhabi</h3>
+              <p className="text-muted-foreground">Real stories from real people</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-card p-6 rounded-xl shadow-sm">
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+                  ))}
+                </div>
+                <p className="text-sm mb-4 italic">"This app made my cancer journey so much less overwhelming. Having everything in one place was a lifesaver."</p>
+                <p className="text-sm font-semibold">- Sarah M.</p>
+              </div>
+              <div className="bg-card p-6 rounded-xl shadow-sm">
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+                  ))}
+                </div>
+                <p className="text-sm mb-4 italic">"The AI assistant answered my questions at 2 AM when I was worried. The community support is incredible."</p>
+                <p className="text-sm font-semibold">- Ahmed K.</p>
+              </div>
+              <div className="bg-card p-6 rounded-xl shadow-sm">
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+                  ))}
+                </div>
+                <p className="text-sm mb-4 italic">"Booking appointments is so easy now. I found the best oncologist near me and scheduled in minutes."</p>
+                <p className="text-sm font-semibold">- Fatima A.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -179,17 +272,41 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to take the first step?
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-primary/90 to-accent text-primary-foreground relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <Badge className="mb-6 bg-white/20 text-white border-white/30">Free to Start</Badge>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            Start Your Care Journey Today
           </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Join hundreds of patients and caregivers who've found clarity with Cancer Navigator.
+          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
+            Join 234+ patients who've found clarity, confidence, and community with Cancer Navigator.
           </p>
-          <Button size="lg" variant="secondary" asChild className="text-lg px-8 py-6">
-            <Link href="/onboarding">Start Your Journey</Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <Button 
+              size="lg" 
+              asChild 
+              className="text-lg px-10 py-7 bg-white text-primary hover:bg-white/90 shadow-2xl hover:shadow-xl transition-all"
+            >
+              <Link href="/onboarding">Get Started Free →</Link>
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              asChild 
+              className="text-lg px-10 py-7 border-2 border-white text-white hover:bg-white/10"
+            >
+              <Link href="#features">Learn More</Link>
+            </Button>
+          </div>
+          <p className="text-sm opacity-75">
+            ✓ No credit card required  ✓ Set up in 2 minutes  ✓ Available in English & Arabic
+          </p>
         </div>
       </section>
 

@@ -133,8 +133,8 @@ export default function Trials() {
     const matchesSearch = trial.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          trial.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          trial.condition.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesPhase = !selectedPhase || trial.phase === selectedPhase;
-    const matchesStatus = !selectedStatus || trial.status === selectedStatus;
+    const matchesPhase = !selectedPhase || selectedPhase === 'all' || trial.phase === selectedPhase;
+    const matchesStatus = !selectedStatus || selectedStatus === 'all' || trial.status === selectedStatus;
     
     return matchesSearch && matchesPhase && matchesStatus;
   });
@@ -236,7 +236,7 @@ export default function Trials() {
                   <SelectValue placeholder="Phase" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Phases</SelectItem>
+                  <SelectItem value="all">All Phases</SelectItem>
                   <SelectItem value="Phase 1">Phase 1</SelectItem>
                   <SelectItem value="Phase 2">Phase 2</SelectItem>
                   <SelectItem value="Phase 3">Phase 3</SelectItem>
@@ -249,7 +249,7 @@ export default function Trials() {
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Statuses</SelectItem>
+                  <SelectItem value="all">All Statuses</SelectItem>
                   <SelectItem value="Recruiting">Recruiting</SelectItem>
                   <SelectItem value="Not yet recruiting">Not yet recruiting</SelectItem>
                   <SelectItem value="Active, not recruiting">Active, not recruiting</SelectItem>
@@ -408,8 +408,8 @@ export default function Trials() {
               </p>
               <Button variant="outline" onClick={() => {
                 setSearchTerm('');
-                setSelectedPhase('');
-                setSelectedStatus('');
+                setSelectedPhase('all');
+                setSelectedStatus('all');
               }}>
                 Clear Filters
               </Button>

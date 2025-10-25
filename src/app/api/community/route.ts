@@ -1,5 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+
+// Mock community posts
+const mockPosts = [
+  {
+    id: 1,
+    userId: 'user1',
+    city: 'Abu Dhabi',
+    cancerType: 'Breast Cancer',
+    content: 'Just finished my first chemo session. The team at Cleveland Clinic was amazing. Remember to bring someone with you for support!',
+    createdAt: new Date('2024-12-15T10:30:00'),
+    flagged: false,
+    user: {
+      id: 'user1',
+      name: 'Sarah'
+    }
+  },
+  {
+    id: 2,
+    userId: 'user2',
+    city: 'Abu Dhabi',
+    cancerType: 'Breast Cancer',
+    content: 'Looking for recommendations for wigs in Abu Dhabi. Anyone have good experiences?',
+    createdAt: new Date('2024-12-14T15:20:00'),
+    flagged: false,
+    user: {
+      id: 'user2',
+      name: 'Fatima'
+    }
+  },
+  {
+    id: 3,
+    userId: 'user3',
+    city: 'Abu Dhabi',
+    cancerType: 'Breast Cancer',
+    content: 'The support group at Hope Cancer Center has been life-changing. Highly recommend joining if you haven\'t already.',
+    createdAt: new Date('2024-12-13T09:45:00'),
+    flagged: false,
+    user: {
+      id: 'user3',
+      name: 'Layla'
+    }
+  }
+];
 
 export async function GET(request: NextRequest) {
   try {
@@ -7,32 +49,18 @@ export async function GET(request: NextRequest) {
     const city = searchParams.get('city');
     const cancerType = searchParams.get('cancerType');
 
-    // Build where clause
-    const where: any = {
-      flagged: false // Only show non-flagged posts
-    };
-    if (city) where.city = city;
-    if (cancerType) where.cancerType = cancerType;
-
-    const posts = await db.communityPost.findMany({
-      where,
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true
-          }
-        }
-      },
-      orderBy: {
-        createdAt: 'desc'
-      },
-      take: 50 // Limit to 50 most recent posts
-    });
+    // Filter mock data
+    let filteredPosts = mockPosts;
+    if (city) {
+      filteredPosts = filteredPosts.filter(p => p.city === city);
+    }
+    if (cancerType) {
+      filteredPosts = filteredPosts.filter(p => p.cancerType === cancerType);
+    }
 
     return NextResponse.json({
       success: true,
-      posts
+      posts: filteredPosts
     });
   } catch (error) {
     console.error('Error fetching community posts:', error);
@@ -75,26 +103,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const post = await db.communityPost.create({
-      data: {
-        userId,
-        city,
-        cancerType,
-        content
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true
-          }
-        }
+    const newPost = {
+      id: mockPosts.length + 1,
+      userId,
+      city,
+      cancerType,
+      content,
+      createdAt: new Date(),
+      flagged: false,
+      user: {
+        id: userId,
+        name: 'Anonymous User'
       }
-    });
+    };
 
     return NextResponse.json({
       success: true,
-      post
+      post: newPost
     });
   } catch (error) {
     console.error('Error creating community post:', error);

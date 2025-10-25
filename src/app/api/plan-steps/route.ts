@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
 
 export async function PUT(request: NextRequest) {
   try {
@@ -12,14 +11,13 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const updatedStep = await db.userPlanStep.update({
-      where: { id: stepId },
-      data: { isDone }
-    });
-
+    // Return mock success response
     return NextResponse.json({
       success: true,
-      step: updatedStep
+      step: {
+        id: stepId,
+        isDone
+      }
     });
   } catch (error) {
     console.error('Error updating plan step:', error);

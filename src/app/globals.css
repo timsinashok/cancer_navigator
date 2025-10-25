@@ -45,40 +45,40 @@
 
 :root {
   --radius: 0.75rem;
-  --background: #FAFDF9; /* Soft warm white */
-  --foreground: #1A1F2E; /* Deep navy */
+  --background: #FFF5F7; /* Soft pink-tinted white */
+  --foreground: #1F1F1F; /* Dark gray, almost black */
   --card: #FFFFFF;
-  --card-foreground: #1A1F2E;
+  --card-foreground: #1F1F1F;
   --popover: #FFFFFF;
-  --popover-foreground: #1A1F2E;
-  --primary: #14B8A6; /* Calming teal-500 */
+  --popover-foreground: #1F1F1F;
+  --primary: #EC4899; /* Pink-500 - Cancer ribbon pink */
   --primary-foreground: #FFFFFF;
-  --secondary: #FFF7ED; /* Warm orange-50 */
-  --secondary-foreground: #1A1F2E;
-  --muted: #F0FDF4; /* Soft mint green-50 */
-  --muted-foreground: #64748B;
-  --accent: #FB923C; /* Warm coral orange-400 */
+  --secondary: #FCE7F3; /* Pink-100 - Soft pink */
+  --secondary-foreground: #1F1F1F;
+  --muted: #FDF2F8; /* Pink-50 - Very light pink */
+  --muted-foreground: #6B7280; /* Gray-500 */
+  --accent: #DB2777; /* Pink-600 - Deep vibrant pink */
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444; /* red-500 */
   --success: #10B981; /* emerald-500 */
   --warning: #F59E0B; /* amber-500 */
-  --info: #0EA5E9; /* sky-500 */
-  --border: #E7F3F1; /* Teal-tinted border */
-  --input: #E7F3F1;
-  --ring: #14B8A6;
-  --chart-1: #14B8A6; /* teal */
-  --chart-2: #FB923C; /* coral */
-  --chart-3: #10B981; /* emerald */
-  --chart-4: #F59E0B; /* amber */
-  --chart-5: #8B5CF6; /* violet */
-  --sidebar: #FAFDF9;
-  --sidebar-foreground: #1A1F2E;
-  --sidebar-primary: #14B8A6;
+  --info: #EC4899; /* Pink-500 for info too */
+  --border: #FBCFE8; /* Pink-200 - Light pink border */
+  --input: #FBCFE8;
+  --ring: #EC4899;
+  --chart-1: #EC4899; /* pink */
+  --chart-2: #F9A8D4; /* light pink */
+  --chart-3: #BE185D; /* deep pink */
+  --chart-4: #DB2777; /* vibrant pink */
+  --chart-5: #F472B6; /* medium pink */
+  --sidebar: #FFF5F7;
+  --sidebar-foreground: #1F1F1F;
+  --sidebar-primary: #EC4899;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F0FDF4;
-  --sidebar-accent-foreground: #1A1F2E;
-  --sidebar-border: #E7F3F1;
-  --sidebar-ring: #14B8A6;
+  --sidebar-accent: #FCE7F3;
+  --sidebar-accent-foreground: #1F1F1F;
+  --sidebar-border: #FBCFE8;
+  --sidebar-ring: #EC4899;
 }
 
 .dark {

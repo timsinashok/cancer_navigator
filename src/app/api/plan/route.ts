@@ -1,5 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+
+// Mock data for demo
+const mockCarePlan = {
+  id: 1,
+  city: 'Abu Dhabi',
+  cancerType: 'Breast Cancer',
+  stage: 'Stage 2',
+  createdAt: new Date('2024-12-01'),
+  steps: [
+    {
+      id: 1,
+      planId: 1,
+      stepOrder: 1,
+      stepTitle: 'Confirm pathology and obtain your report',
+      stepDescription: 'Request your histopathology report from your doctor. This confirms the cancer type and helps guide treatment decisions.',
+      isDone: false
+    },
+    {
+      id: 2,
+      planId: 1,
+      stepOrder: 2,
+      stepTitle: 'Book oncologist consultation',
+      stepDescription: 'Bring all reports, medication list, and questions. Consider bringing a family member or friend for support.',
+      isDone: false
+    },
+    {
+      id: 3,
+      planId: 1,
+      stepOrder: 3,
+      stepTitle: 'Schedule baseline imaging (CT/MRI/PET)',
+      stepDescription: 'As ordered by your oncologist to determine the extent of disease. Ensure you understand any preparation required (e.g., fasting).',
+      isDone: false
+    },
+    {
+      id: 4,
+      planId: 1,
+      stepOrder: 4,
+      stepTitle: 'Discuss treatment options with your care team',
+      stepDescription: 'Review surgery, chemotherapy, radiation, hormonal therapy, and targeted therapy options. Ask about side effects and long-term impacts.',
+      isDone: false
+    },
+    {
+      id: 5,
+      planId: 1,
+      stepOrder: 5,
+      stepTitle: 'Join a local support group',
+      stepDescription: 'Connect with others who understand your journey. Peer support improves treatment adherence and emotional well-being.',
+      isDone: false
+    },
+    {
+      id: 6,
+      planId: 1,
+      stepOrder: 6,
+      stepTitle: 'Consult with a nutritionist',
+      stepDescription: 'Get personalized dietary advice to support your body during and after treatment.',
+      isDone: false
+    }
+  ]
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,65 +70,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create user plan
-    const userPlan = await db.userPlan.create({
-      data: {
-        userId,
-        city,
-        cancerType,
-        stage: stage || 'Unknown'
-      }
-    });
-
-    // Get care steps for this cancer type and stage
-    const careSteps = await db.careStep.findMany({
-      where: {
-        cancerType,
-        stage: stage || 'Unknown'
-      },
-      orderBy: {
-        stepOrder: 'asc'
-      }
-    });
-
-    // If no specific steps found, get generic steps
-    let stepsToUse = careSteps;
-    if (stepsToUse.length === 0) {
-      stepsToUse = await db.careStep.findMany({
-        where: {
-          cancerType,
-          stage: 'Unknown'
-        },
-        orderBy: {
-          stepOrder: 'asc'
-        }
-      });
-    }
-
-    // Create user plan steps
-    const userPlanSteps = await Promise.all(
-      stepsToUse.map((step) =>
-        db.userPlanStep.create({
-          data: {
-            planId: userPlan.id,
-            stepOrder: step.stepOrder,
-            stepTitle: step.stepTitle,
-            stepDescription: step.stepDescription,
-            isDone: false
-          }
-        })
-      )
-    );
-
+    // Return mock data
     return NextResponse.json({
       success: true,
       plan: {
-        id: userPlan.id,
-        city: userPlan.city,
-        cancerType: userPlan.cancerType,
-        stage: userPlan.stage,
-        createdAt: userPlan.createdAt,
-        steps: userPlanSteps
+        ...mockCarePlan,
+        city,
+        cancerType,
+        stage: stage || 'Unknown'
       }
     });
   } catch (error) {
@@ -94,33 +101,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get user's latest plan
-    const userPlan = await db.userPlan.findFirst({
-      where: {
-        userId
-      },
-      orderBy: {
-        createdAt: 'desc'
-      },
-      include: {
-        steps: {
-          orderBy: {
-            stepOrder: 'asc'
-          }
-        }
-      }
-    });
-
-    if (!userPlan) {
-      return NextResponse.json(
-        { error: 'No plan found for this user' },
-        { status: 404 }
-      );
-    }
-
+    // Return mock data
     return NextResponse.json({
       success: true,
-      plan: userPlan
+      plan: mockCarePlan
     });
   } catch (error) {
     console.error('Error fetching plan:', error);
