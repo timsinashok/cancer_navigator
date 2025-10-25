@@ -40,10 +40,11 @@ export default function Home() {
               🇦🇪 Abu Dhabi • Breast Cancer Support
             </Badge>
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Navigate Cancer Care with
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                Confidence & Clarity
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                AI-Powered
               </span>
+              {" "}Cancer Navigation
+              <span className="block text-foreground">Made Simple</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
               Your personal AI-powered care companion. Get step-by-step guidance, book appointments instantly, 
@@ -87,19 +88,128 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero Image/Preview */}
+          {/* Our Mission */}
           <div className="max-w-5xl mx-auto mt-16">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-primary/20">
-              <div className="aspect-video bg-gradient-to-br from-primary/20 via-accent/10 to-primary/10 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <Heart className="h-24 w-24 text-primary mx-auto mb-4" />
-                  <p className="text-lg font-semibold text-muted-foreground">
-                    Your personalized dashboard awaits
+            <Card className="border-2 border-primary/20 shadow-2xl">
+              <CardHeader className="text-center pb-4">
+                <CardTitle className="text-3xl md:text-4xl mb-4">Our Mission: Navigate Cancer with Confidence</CardTitle>
+                <CardDescription className="text-lg">
+                  Cancer navigation shouldn't be complex. We're starting with cancer care to help patients navigate their journey 
+                  and make it easy—powered by AI and community wisdom.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl p-6 mb-6">
+                  <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                    <MapPin className="h-5 w-5 text-primary" />
+                    Real Use Case: Copy Successful Navigation Paths
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    Meet Sarah, who was diagnosed with breast cancer and felt overwhelmed. Through our platform, she discovered 
+                    that Fatima had a similar diagnosis and successfully navigated her treatment at local facilities.
                   </p>
+                  <div className="bg-card rounded-lg p-4 border-l-4 border-primary">
+                    <p className="text-sm mb-2">
+                      <strong>Sarah's Journey:</strong> She copied Fatima's navigation path with one click—following the same 
+                      sequence of appointments, tests, and specialists. Within days, Sarah had her personalized roadmap, 
+                      booked her first appointments, and felt empowered knowing she was following a proven path.
+                    </p>
+                    <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
+                      <CheckCircle className="h-4 w-4 text-primary" />
+                      <span>Community-proven paths</span>
+                      <CheckCircle className="h-4 w-4 text-primary ml-2" />
+                      <span>One-click execution</span>
+                      <CheckCircle className="h-4 w-4 text-primary ml-2" />
+                      <span>Instant confidence</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
+        </div>
+      </section>
+
+      {/* Origin Story Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-primary text-primary-foreground">Our Story</Badge>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+              Why We Built This
+            </h2>
+          </div>
+
+          <Card className="border-2 shadow-lg">
+            <CardContent className="pt-6">
+              <div className="prose prose-lg max-w-none">
+                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                  We saw a critical problem: <strong>navigating cancer is incredibly difficult</strong>, especially in developing 
+                  countries. Even in the UAE, where healthcare infrastructure exists, the process remains complex and overwhelming 
+                  for patients and their families.
+                </p>
+                
+                <div className="bg-accent/5 rounded-xl p-6 mb-6">
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">The Inspiration</h3>
+                  <ul className="space-y-3 text-muted-foreground">
+                    <li className="flex items-start gap-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>In many developing countries, patients struggle to find the right doctors, understand treatment options, 
+                      and coordinate complex care journeys</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>Even in the UAE, despite having excellent facilities, navigating the healthcare system is confusing 
+                      and time-consuming</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-accent font-bold mt-1">•</span>
+                      <span>Private firms exist that help with navigation, but they're expensive and not accessible to everyone</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-primary font-bold mt-1">→</span>
+                      <span><strong>We believe AI can democratize this service</strong> and make expert navigation available to all</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-primary/5 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">Building the MVP</h3>
+                  <p className="text-muted-foreground mb-4">
+                    As we developed the concept, we explored different approaches to create a Minimum Viable Product that 
+                    could actually help patients today:
+                  </p>
+                  <ul className="space-y-3 text-muted-foreground">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span><strong>Start local:</strong> Focus on Abu Dhabi to build deep, actionable provider networks</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span><strong>AI-first approach:</strong> Use AI to generate personalized care plans instantly</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span><strong>Community wisdom:</strong> Enable patients to share and copy successful navigation paths</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span><strong>Actionable integration:</strong> Direct appointment booking, not just information</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span><strong>Start with one cancer type:</strong> Begin with breast cancer to perfect the experience</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <p className="text-lg text-muted-foreground leading-relaxed mt-6 text-center">
+                  <strong className="text-foreground">The result?</strong> A platform that combines AI intelligence with human experience 
+                  to guide cancer patients through their journey—accessible, affordable, and empowering.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
