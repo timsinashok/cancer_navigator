@@ -1,0 +1,41 @@
+   ▲ Next.js 15.3.5
+   - Local:        http://localhost:3000
+   - Network:      http://10.228.244.236:3000
+
+ ✓ Starting...
+ ✓ Ready in 1730ms
+ ⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ ○ Compiling / ...
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+ ✓ Compiled / in 4.3s (843 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 4698ms
+ GET /_next/static/webpack/5d3012fd5f25bc8b.webpack.hot-update.json 404 in 4718ms
+ GET / 200 in 68ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 639ms (874 modules)
+ GET /dashboard 200 in 866ms
+ ✓ Compiled /resources in 314ms (889 modules)
+ GET /resources 200 in 481ms
+ ○ Compiling /trials ...
+ ✓ Compiled /trials in 788ms (1012 modules)
+ GET /trials 200 in 1017ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+ ✓ Compiled /onboarding in 285ms (1029 modules)
+ GET /onboarding 200 in 383ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+ GET /dashboard 200 in 35ms
+ GET / 200 in 40ms
+ GET /dashboard 200 in 246ms
+ GET /resources 200 in 131ms
+ GET /trials 200 in 345ms
+ GET / 200 in 83ms
+ GET / 200 in 19ms
+ GET / 200 in 18ms
+ GET /onboarding 200 in 18ms
+ GET /dashboard 200 in 32ms
